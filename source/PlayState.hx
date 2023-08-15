@@ -60,6 +60,8 @@ class PlayState extends FlxState
 
 	public function HitTheNote(Obj1:FlxSprite, Obj2:FlxSprite)
 	{
+		Sys.sleep(0.005);
+
 		switch Obj1.ID
 		{
 			case 401:
@@ -106,7 +108,7 @@ class PlayState extends FlxState
 			if (randInt == 1)
 			{
 				var GayNote = new FlxSprite();
-				GayNote.makeGraphic(50, 50, FlxColor.WHITE);
+				GayNote.makeGraphic(40, 40, FlxColor.WHITE);
 				GayNote.screenCenter(X);
 				GayNote.y = 0;
 				GayNote.x -= 100;
@@ -120,7 +122,7 @@ class PlayState extends FlxState
 			else if (randInt == 2)
 			{
 				var GayNote = new FlxSprite();
-				GayNote.makeGraphic(50, 50, FlxColor.WHITE);
+				GayNote.makeGraphic(20, 20, FlxColor.WHITE);
 				GayNote.screenCenter(X);
 				GayNote.y = 0;
 				GayNote.x -= 200;
@@ -134,7 +136,7 @@ class PlayState extends FlxState
 			else if (randInt == 3)
 			{
 				var GayNote = new FlxSprite();
-				GayNote.makeGraphic(50, 50, FlxColor.WHITE);
+				GayNote.makeGraphic(20, 20, FlxColor.WHITE);
 				GayNote.screenCenter(X);
 				GayNote.y = 0;
 				GayNote.x -= 300;
@@ -148,7 +150,7 @@ class PlayState extends FlxState
 			else if (randInt == 4)
 			{
 				var GayNote = new FlxSprite();
-				GayNote.makeGraphic(50, 50, FlxColor.WHITE);
+				GayNote.makeGraphic(20, 20, FlxColor.WHITE);
 				GayNote.screenCenter(X);
 				GayNote.y = 0;
 				GayNote.x -= 400;
@@ -162,7 +164,7 @@ class PlayState extends FlxState
 
 			for (k in Notes)
 			{
-				k.y += 10;
+				k.y += 5;
 
 				if (k.y == 700)
 					HitTheNote(k, Note);
@@ -178,7 +180,7 @@ class PlayState extends FlxState
 		}
 		else
 		{
-			Note.color = FlxColor.WHITE;
+			Note.color = FlxColor.GRAY;
 		}
 
 		if (FlxG.keys.anyPressed([FlxKey.F]))
@@ -187,7 +189,7 @@ class PlayState extends FlxState
 		}
 		else
 		{
-			Note1.color = FlxColor.WHITE;
+			Note1.color = FlxColor.GRAY;
 		}
 
 		if (FlxG.keys.anyPressed([FlxKey.J]))
@@ -196,7 +198,7 @@ class PlayState extends FlxState
 		}
 		else
 		{
-			Note2.color = FlxColor.WHITE;
+			Note2.color = FlxColor.GRAY;
 		}
 
 		if (FlxG.keys.anyPressed([FlxKey.K]))
@@ -205,7 +207,7 @@ class PlayState extends FlxState
 		}
 		else
 		{
-			Note3.color = FlxColor.WHITE;
+			Note3.color = FlxColor.GRAY;
 		}
 	}
 }
