@@ -13,11 +13,7 @@ class MenuState extends FlxState
 
 	override public function create():Void
 	{
-		options = [
-			new MenuOption("Play", MenuState),
-			new MenuOption("Options", MenuState),
-			new MenuOption("Exit", null)
-		];
+		options = [new MenuOption("Play", MenuState), new MenuOption("Exit", null)];
 
 		var yOffset:Float = 100;
 		for (option in options)

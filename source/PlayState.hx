@@ -6,6 +6,7 @@ import flixel.FlxState;
 import flixel.group.FlxSpriteGroup;
 import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxRandom;
+import flixel.text.FlxText;
 import flixel.util.FlxColor;
 
 class PlayState extends FlxState
@@ -14,11 +15,15 @@ class PlayState extends FlxState
 	var Note1:FlxSprite;
 	var Note2:FlxSprite;
 	var Note3:FlxSprite;
+	var BotPlayText:FlxText;
+	var BotPlay = false;
 
 	var NoteGroup:FlxSpriteGroup;
 
 	var noteProb = 15;
 	var yAxisGlobal = 800;
+	var GlobalAcceleration = 200;
+	var PhysicFalling = true;
 
 	override public function create()
 	{
@@ -50,6 +55,13 @@ class PlayState extends FlxState
 		Note3.x += 200;
 		add(Note3);
 
+		BotPlayText = new FlxText();
+		BotPlayText.text = "BOTPLAY";
+		BotPlayText.size = 32;
+		BotPlayText.screenCenter(X);
+		BotPlayText.y = yAxisGlobal - 50;
+		add(BotPlayText);
+
 		NoteGroup = new FlxSpriteGroup();
 
 		super.create();
@@ -60,39 +72,60 @@ class PlayState extends FlxState
 		super.update(elapsed);
 		manageKeybinds();
 		endlessNotes();
+		modifiersManager();
+	}
+
+	public function modifiersManager()
+	{
+		if (BotPlay)
+		{
+			BotPlayText.alpha = 1;
+		}
+		else
+		{
+			BotPlayText.alpha = 0;
+		}
 	}
 
 	public function noteOneCollide(i:FlxSprite, strumNote:FlxSprite)
 	{
-		if (i.ID == 0)
+		if (BotPlay)
 		{
-			if (FlxG.keys.anyPressed([FlxKey.D]))
-			{
-				i.destroy();
-			}
+			i.destroy();
+			strumNote.color = FlxColor.RED;
 		}
-
-		if (i.ID == 1)
+		else
 		{
-			if (FlxG.keys.anyPressed([FlxKey.F]))
+			if (i.ID == 0)
 			{
-				i.destroy();
+				if (FlxG.keys.anyPressed([FlxKey.D]))
+				{
+					i.destroy();
+				}
 			}
-		}
 
-		if (i.ID == 2)
-		{
-			if (FlxG.keys.anyPressed([FlxKey.J]))
+			if (i.ID == 1)
 			{
-				i.destroy();
+				if (FlxG.keys.anyPressed([FlxKey.F]))
+				{
+					i.destroy();
+				}
 			}
-		}
 
-		if (i.ID == 3)
-		{
-			if (FlxG.keys.anyPressed([FlxKey.K]))
+			if (i.ID == 2)
 			{
-				i.destroy();
+				if (FlxG.keys.anyPressed([FlxKey.J]))
+				{
+					i.destroy();
+				}
+			}
+
+			if (i.ID == 3)
+			{
+				if (FlxG.keys.anyPressed([FlxKey.K]))
+				{
+					i.destroy();
+				}
 			}
 		}
 	}
@@ -101,7 +134,10 @@ class PlayState extends FlxState
 	{
 		for (i in NoteGroup)
 		{
-			i.y += 10;
+			if (PhysicFalling == false)
+			{
+				i.y += 10;
+			}
 			FlxG.overlap(i, Note, noteOneCollide);
 			FlxG.overlap(i, Note1, noteOneCollide);
 			FlxG.overlap(i, Note2, noteOneCollide);
@@ -124,6 +160,12 @@ class PlayState extends FlxState
 				RandomNote.screenCenter(X);
 				RandomNote.ID = 0;
 				RandomNote.x -= 200;
+				if (PhysicFalling)
+				{
+					RandomNote.acceleration.y = GlobalAcceleration;
+					RandomNote.y = -100;
+				}
+
 				add(RandomNote);
 				NoteGroup.add(RandomNote);
 			}
@@ -135,6 +177,11 @@ class PlayState extends FlxState
 				RandomNote.screenCenter(X);
 				RandomNote.ID = 1;
 				RandomNote.x -= 100;
+				if (PhysicFalling)
+				{
+					RandomNote.acceleration.y = GlobalAcceleration;
+					RandomNote.y = -100;
+				}
 				add(RandomNote);
 				NoteGroup.add(RandomNote);
 			}
@@ -145,6 +192,11 @@ class PlayState extends FlxState
 				RandomNote.makeGraphic(50, 50, FlxColor.WHITE);
 				RandomNote.screenCenter(X);
 				RandomNote.ID = 2;
+				if (PhysicFalling)
+				{
+					RandomNote.acceleration.y = GlobalAcceleration;
+					RandomNote.y = -100;
+				}
 				RandomNote.x += 100;
 				add(RandomNote);
 				NoteGroup.add(RandomNote);
@@ -157,6 +209,11 @@ class PlayState extends FlxState
 				RandomNote.screenCenter(X);
 				RandomNote.ID = 3;
 				RandomNote.x += 200;
+				if (PhysicFalling)
+				{
+					RandomNote.acceleration.y = GlobalAcceleration;
+					RandomNote.y = -100;
+				}
 				add(RandomNote);
 				NoteGroup.add(RandomNote);
 			}
@@ -199,6 +256,13 @@ class PlayState extends FlxState
 		else
 		{
 			Note3.color = FlxColor.WHITE;
+		}
+
+		// Modifiers
+
+		if (FlxG.keys.anyJustPressed([FlxKey.ONE]))
+		{
+			BotPlay = !BotPlay;
 		}
 	}
 }
